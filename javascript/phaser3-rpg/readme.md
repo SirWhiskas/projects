@@ -25,6 +25,9 @@ To run the game, run this command:
 npm run start
 ```
 
+## Assets
+Within the project root, add a `public/assets` folder to store all of the game art and images. To prevent the possibility of redistributing game art without the proper license to a public repository, the assets folder will be included within the `.gitignore` file.
+
 ## Publishing Build
 Parcel will bundle everything up in an optimized build that's suitable for a production environment. Just run this:
 ```
