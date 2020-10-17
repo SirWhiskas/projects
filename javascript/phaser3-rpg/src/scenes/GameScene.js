@@ -2,6 +2,8 @@ import Phaser from 'phaser'
 import ScoreLabel from '../ui/ScoreLabel'
 import BombSpawner from '../utils/BombSpawner'
 
+import Player from '../gameObjects/Player';
+
 const GROUND_KEY = 'ground'
 const DUDE_KEY = 'dude'
 const STAR_KEY = 'star'
@@ -41,7 +43,7 @@ export default class GameScene extends Phaser.Scene
 		// this.add.image(400, 300, 'star')
 		
         const platforms = this.createPlatforms()
-        this.player = this.createPlayer()
+        this.player = new Player(this, 100, 450, DUDE_KEY)
         this.stars = this.createStars()
 
         this.scoreLabel = this.createScoreLabel(16, 16, 0)
@@ -49,14 +51,14 @@ export default class GameScene extends Phaser.Scene
         this.bombSpawner = new BombSpawner(this, BOMB_KEY)
         const bombsGroup = this.bombSpawner.group
 
-        this.physics.add.collider(this.player, platforms)
+        this.physics.add.collider(this.player.getGameObject(), platforms)
         this.physics.add.collider(this.stars, platforms)
         this.physics.add.collider(bombsGroup, platforms)
-        this.physics.add.collider(this.player, bombsGroup, this.hitBomb, null, this)
+        this.physics.add.collider(this.player.getGameObject(), bombsGroup, this.hitBomb, null, this)
 
-        this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this)
+        this.physics.add.overlap(this.player.getGameObject(), this.stars, this.collectStar, null, this)
         
-        this.cursors = this.input.keyboard.createCursorKeys()
+        //this.cursors = this.input.keyboard.createCursorKeys()
     }
     
     createPlatforms()
@@ -161,28 +163,6 @@ export default class GameScene extends Phaser.Scene
 			return
         }
         
-		if (this.cursors.left.isDown)
-		{
-			this.player.setVelocityX(-160)
-
-			this.player.anims.play('left', true)
-		}
-		else if (this.cursors.right.isDown)
-		{
-			this.player.setVelocityX(160)
-
-			this.player.anims.play('right', true)
-		}
-		else
-		{
-			this.player.setVelocityX(0)
-
-			this.player.anims.play('turn')
-		}
-
-		if (this.cursors.up.isDown && this.player.body.touching.down)
-		{
-			this.player.setVelocityY(-330)
-		}
+		this.player.handleUpdate();
 	}
 }
