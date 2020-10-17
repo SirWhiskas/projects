@@ -1,5 +1,5 @@
 {
-	"name": "phaser3-parcel-template",
+	"name": "phaser3-rpg",
 	"version": "1.0.0",
 	"description": "A template project for Phaser3 using Parceljs",
 	"scripts": {
